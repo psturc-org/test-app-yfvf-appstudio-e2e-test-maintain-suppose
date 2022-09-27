@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/created-by: application-service
+    app.kubernetes.io/instance: test-component-mzlg
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: test-component-mzlg
+    app.kubernetes.io/part-of: test-app-yfvf
+  name: test-component-mzlg
+  namespace: appstudio-e2e-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: test-component-mzlg
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: test-component-mzlg
+    spec:
+      containers:
+      - image: quay.io/psturc/test-images:dcc3223d0d7b4e1ba5808a392dea76bd
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        name: container-image
+        ports:
+        - containerPort: 8081
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          tcpSocket:
+            port: 8081
+        resources: {}
+status: {}
